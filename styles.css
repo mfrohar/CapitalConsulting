@@ -1146,7 +1146,6 @@ textarea { resize: vertical; }
   width: auto;
   display: block;
   margin-bottom: 1rem;
-  filter: brightness(0) invert(1);
 }
 
 .footer-logo-text {
