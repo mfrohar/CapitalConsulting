@@ -2,27 +2,30 @@
 
 ## Deployment Workflow
 
-**Always work on a feature branch and open a PR into `main` — never push directly to `main`.**
+**Always work on a feature branch and open a PR into `staging` — never push directly to `staging` or `main`.**
 
 1. Create a feature branch from `main` (e.g. `feature/description`)
 2. Make changes on the feature branch
-3. Open a PR from the feature branch into `main`
-4. Once approved, merge into `main` for production
+3. Open a PR from the feature branch into `staging`
+4. Staging deploys automatically for review — share with client or review yourself
+5. Once approved, merge `staging` into `main` for production
 
 ### Branch structure
 - `main` — production (live site)
-- `feature/*` — short-lived branches for individual changes, always PR'd into `main`
+- `staging` — staging/preview environment (review before going live)
+- `feature/*` — short-lived branches for individual changes, always PR'd into `staging`
 
 ### Example flow
 ```bash
 git checkout -b feature/my-change origin/main
 # ... make changes ...
 git push origin feature/my-change
-gh pr create --base main --title "My change" --body "..."
-# ... review and merge into main when ready ...
+gh pr create --base staging --title "My change" --body "..."
+# ... review on staging, get client approval ...
+# ... merge staging into main when ready to go live ...
 ```
 
-Never push directly to `main`.
+Never push directly to `staging` or `main`.
 
 
 ## Local Preview Setup
