@@ -8,19 +8,19 @@
   --bg:            #F7F2EB;
   --bg-alt:        #EDE7DB;
   --bg-card:       #FDFAF5;
-  --bg-dark:       #1C4535;
+  --bg-dark:       #2F2B49;
   --surface:       #E4DDD0;
   --ink:           #191917;
-  --green:         #1C4535;
-  --green-light:   #28604A;
-  --green-deep:    #122E26;
-  --green-dim:     rgba(28, 69, 53, 0.07);
-  --green-line:    rgba(28, 69, 53, 0.18);
-  --amber:         #C8793A;
-  --amber-light:   #D99355;
-  --amber-deep:    #A8632D;
-  --amber-dim:     rgba(200, 121, 58, 0.10);
-  --amber-line:    rgba(200, 121, 58, 0.25);
+  --green:         #2F2B49;
+  --green-light:   #3D3862;
+  --green-deep:    #1E1B30;
+  --green-dim:     rgba(47, 43, 73, 0.07);
+  --green-line:    rgba(47, 43, 73, 0.18);
+  --amber:         #2F2B49;
+  --amber-light:   #3D3862;
+  --amber-deep:    #1E1B30;
+  --amber-dim:     rgba(47, 43, 73, 0.10);
+  --amber-line:    rgba(47, 43, 73, 0.25);
   --text:          #191917;
   --text-muted:    #5E5850;
   --text-dim:      #9A9490;
@@ -154,7 +154,7 @@ textarea { resize: vertical; }
 .btn-primary:hover {
   background: var(--green-light);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(28, 69, 53, 0.28);
+  box-shadow: 0 8px 32px rgba(47, 43, 73, 0.28);
 }
 .btn-primary:active { background: var(--green-deep); transform: translateY(0); }
 
@@ -177,7 +177,7 @@ textarea { resize: vertical; }
 .btn-gold:hover {
   background: var(--amber-light);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(200, 121, 58, 0.28);
+  box-shadow: 0 8px 28px rgba(47, 43, 73, 0.28);
 }
 .btn-gold:active { transform: translateY(0); }
 
@@ -303,7 +303,7 @@ textarea { resize: vertical; }
   background: var(--amber-light) !important;
   color: #ffffff !important;
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(200, 121, 58, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(47, 43, 73, 0.3) !important;
 }
 
 .nav-menu-btn {
@@ -368,7 +368,7 @@ textarea { resize: vertical; }
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(28, 69, 53, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(47, 43, 73, 0.12) 1px, transparent 1px);
   background-size: 30px 30px;
   pointer-events: none;
 }
@@ -381,7 +381,7 @@ textarea { resize: vertical; }
   right: -5%;
   width: 55%;
   height: 75%;
-  background: radial-gradient(ellipse at center, rgba(200, 121, 58, 0.06) 0%, transparent 65%);
+  background: radial-gradient(ellipse at center, rgba(47, 43, 73, 0.06) 0%, transparent 65%);
   pointer-events: none;
 }
 
@@ -536,7 +536,7 @@ textarea { resize: vertical; }
   border-radius: var(--radius);
   padding: 0.9rem 1.4rem;
   white-space: nowrap;
-  box-shadow: 0 8px 28px rgba(28, 69, 53, 0.35);
+  box-shadow: 0 8px 28px rgba(47, 43, 73, 0.35);
 }
 
 .hero-stat-num {
@@ -675,7 +675,7 @@ textarea { resize: vertical; }
 }
 
 .service-card:hover {
-  border-color: rgba(28, 69, 53, 0.15);
+  border-color: rgba(47, 43, 73, 0.15);
   box-shadow: var(--shadow-lg);
   transform: translateY(-5px);
 }
@@ -844,7 +844,7 @@ textarea { resize: vertical; }
 .timeline-step.milestone .timeline-dot {
   border-color: var(--green);
   background: var(--green);
-  box-shadow: 0 0 0 5px rgba(28, 69, 53, 0.13);
+  box-shadow: 0 0 0 5px rgba(47, 43, 73, 0.13);
 }
 
 .timeline-connector {
@@ -910,7 +910,7 @@ textarea { resize: vertical; }
 }
 
 .pillar:hover {
-  border-color: rgba(28, 69, 53, 0.14);
+  border-color: rgba(47, 43, 73, 0.14);
   transform: translateY(-6px);
   box-shadow: var(--shadow-md);
 }
@@ -933,8 +933,8 @@ textarea { resize: vertical; }
 }
 
 .pillar:hover .pillar-icon {
-  background: rgba(28, 69, 53, 0.13);
-  border-color: rgba(28, 69, 53, 0.28);
+  background: rgba(47, 43, 73, 0.13);
+  border-color: rgba(47, 43, 73, 0.28);
 }
 
 .pillar-title {
@@ -1064,7 +1064,7 @@ textarea { resize: vertical; }
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: var(--green);
-  box-shadow: 0 0 0 3px rgba(28, 69, 53, 0.09);
+  box-shadow: 0 0 0 3px rgba(47, 43, 73, 0.09);
 }
 
 .form-group input.error,
