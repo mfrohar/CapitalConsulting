@@ -6,14 +6,22 @@
 
 - ❌ Never push directly to `staging`
 - ❌ Never push directly to `main`
-- ✅ Always branch from `main` → PR into `staging` → merge `staging` into `main`
+- ✅ Always branch from `main` → PR into `staging` (squash and merge) → PR `staging` into `main` (merge commit)
 
 ### Steps — follow every time
 1. Create a feature branch from `main` (e.g. `feature/description`)
 2. Make all changes on the feature branch
-3. Open a PR from the feature branch into `staging` — never into `main`
-4. Review on staging, get client approval
-5. Only then merge `staging` → `main` for production
+3. Open a PR from the feature branch into `staging`
+4. Merge into `staging` using **Squash and Merge**
+5. Review on staging, get client approval
+6. Open a PR from `staging` into `main`
+7. Merge into `main` using **Create a Merge Commit**
+
+### Merge strategy
+| PR | Merge method |
+|----|-------------|
+| `feature/*` → `staging` | ✅ Squash and Merge |
+| `staging` → `main` | ✅ Create a Merge Commit |
 
 ### Branch structure
 - `main` — production (live site)
@@ -26,8 +34,10 @@ git checkout -b feature/my-change origin/main
 # ... make changes ...
 git push origin feature/my-change
 gh pr create --base staging --title "My change" --body "..."
+# ... squash and merge into staging ...
 # ... review on staging, get client approval ...
-# ... merge staging into main when ready to go live ...
+gh pr create --base main --head staging --title "Deploy: my-change" --body "..."
+# ... merge commit into main ...
 ```
 
 
