@@ -106,11 +106,26 @@ if (form) {
       message: form.querySelector('#message').value.trim(),
     };
 
-    // In production replace with your form handler (Formspree, Netlify Forms, etc.)
-    console.log('Contact form submitted:', data);
+    const submitBtn = form.querySelector('[type="submit"]');
+    submitBtn.disabled = true;
 
-    form.hidden = true;
-    formSuccess.hidden = false;
+    fetch('https://formspree.io/f/xjgpbrow', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+      .then(res => {
+        if (res.ok) {
+          form.hidden = true;
+          formSuccess.hidden = false;
+        } else {
+          return res.json().then(body => { throw new Error(body.error || 'Submission failed'); });
+        }
+      })
+      .catch(() => {
+        submitBtn.disabled = false;
+        alert('Something went wrong. Please try again or email us directly.');
+      });
   });
 
   form.querySelectorAll('input, textarea').forEach(field => {
