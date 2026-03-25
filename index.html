@@ -24,7 +24,8 @@
         <li><a href="#services">Services</a></li>
         <li><a href="#process">Our Process</a></li>
         <li><a href="#about">About Us</a></li>
-        <li><a href="#contact" class="nav-cta">Get Started</a></li>
+        <li><a href="work.html">Our Work</a></li>
+        <li><a href="contact.html" class="nav-cta">Contact</a></li>
       </ul>
       <button class="nav-menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -34,7 +35,8 @@
       <a href="#services" class="mobile-link">Services</a>
       <a href="#process" class="mobile-link">Our Process</a>
       <a href="#about" class="mobile-link">About Us</a>
-      <a href="#contact" class="mobile-link mobile-cta">Get Started</a>
+      <a href="work.html" class="mobile-link">Our Work</a>
+      <a href="contact.html" class="mobile-link mobile-cta">Contact</a>
     </div>
   </nav>
 
@@ -49,8 +51,8 @@
         <h1 class="hero-title">Engineers Who<br><em>Build</em><br>Brands</h1>
         <p class="hero-subtitle">We're engineers at heart. We build brands, run campaigns, and ship results — no fluff, just execution.</p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Start a Project</a>
-          <a href="#services" class="btn btn-ghost">Our Services</a>
+          <a href="contact.html" class="btn btn-primary">Book a Strategy Call</a>
+          <a href="work.html" class="btn btn-ghost">View Our Work</a>
         </div>
       </div>
       <div class="hero-visual">
@@ -369,77 +371,17 @@
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section">
+  <!-- CTA Banner -->
+  <section class="section cta-banner">
     <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <span class="section-label">Get in Touch</span>
-          <h2 class="section-title">Let's Build<br>Something Real</h2>
-          <p class="body-text">
-            Tell us about your business and goals. We'll respond within one business day
-            to discuss how Capital Consulting can help you grow.
-          </p>
-          <div class="contact-meta">
-            <div class="contact-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M2.5 4.5C2.5 3.95 2.95 3.5 3.5 3.5H12.5C13.05 3.5 13.5 3.95 13.5 4.5V11.5C13.5 12.05 13.05 12.5 12.5 12.5H3.5C2.95 12.5 2.5 12.05 2.5 11.5V4.5Z" stroke="#2F2B49" stroke-width="1.3" fill="none"/>
-                <path d="M2.5 4.5L8 8.5L13.5 4.5" stroke="#2F2B49" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
-              <span>info@capitalconsulting.ca</span>
-            </div>
-            <div class="contact-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 1.5C5.51 1.5 3 3.37 3 6.25C3 9.63 8 14.5 8 14.5C8 14.5 13 9.63 13 6.25C13 3.37 10.49 1.5 8 1.5ZM8 7.75C7.17 7.75 6.5 7.08 6.5 6.25C6.5 5.42 7.17 4.75 8 4.75C8.83 4.75 9.5 5.42 9.5 6.25C9.5 7.08 8.83 7.75 8 7.75Z" fill="#2F2B49"/>
-              </svg>
-              <span>Ottawa, ON &mdash; Serving Clients Nationwide</span>
-            </div>
-          </div>
-          <div class="contact-divider"></div>
-          <p class="contact-promise">
-            <strong>No commitment required.</strong> We start every relationship with an honest conversation about your goals and whether we're the right fit.
-          </p>
+      <div class="cta-banner-inner reveal">
+        <div class="cta-banner-text">
+          <h2 class="section-title" style="margin-bottom:0.5rem;">Ready to Build<br>Something Real?</h2>
+          <p class="body-text" style="margin-bottom:0;">Let's talk about your goals — no commitment required.</p>
         </div>
-        <div class="contact-form-wrap reveal">
-          <form id="contactForm" class="contact-form" novalidate>
-            <p class="form-title">Start a Conversation</p>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
-              </div>
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="jane@yourcompany.com" required autocomplete="email">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="company">Company <span class="label-opt">(Optional)</span></label>
-              <input type="text" id="company" name="company" placeholder="Your Company" autocomplete="organization">
-            </div>
-            <div class="form-group">
-              <label for="message">How Can We Help?</label>
-              <textarea id="message" name="message" rows="4" placeholder="Tell us about your business and what you're looking to achieve..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-gold btn-full">
-              <span>Send Message</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <p class="form-note">We respond within one business day. Your information is kept strictly confidential.</p>
-          </form>
-          <div id="formSuccess" class="form-success" hidden>
-            <div class="success-check">
-              <div class="success-check-circle">
-                <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-                  <path d="M7 13L11 17L19 9" stroke="#2F2B49" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-            </div>
-            <h3>Message Received</h3>
-            <p>Thanks for reaching out. We'll be in touch within one business day to discuss how we can help grow your brand.</p>
-          </div>
+        <div class="cta-banner-actions">
+          <a href="contact.html" class="btn btn-primary">Book a Strategy Call</a>
+          <a href="work.html" class="btn btn-ghost">View Our Work</a>
         </div>
       </div>
     </div>
@@ -459,7 +401,8 @@
             <a href="#services">Services</a>
             <a href="#process">Our Process</a>
             <a href="#about">About Us</a>
-            <a href="#contact">Get Started</a>
+            <a href="work.html">Our Work</a>
+            <a href="contact.html">Contact</a>
           </nav>
         </div>
         <div class="footer-contact-col">
