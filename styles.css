@@ -1271,6 +1271,160 @@ textarea { resize: vertical; }
 }
 
 /* ============================================================
+   ABOUT TEASER (index.html)
+   ============================================================ */
+
+.about-teaser-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.about-teaser-content .section-title {
+  margin-bottom: 1.25rem;
+}
+
+.about-teaser-content .body-text {
+  margin-bottom: 2rem;
+}
+
+.about-teaser-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-mini-pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.about-mini-pillar .pillar-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--green-dim);
+  border: 1px solid var(--green-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.about-mini-pillar .pillar-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.about-mini-pillar .pillar-body {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+@media (max-width: 860px) {
+  .about-teaser-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+/* ============================================================
+   ABOUT PAGE (about.html)
+   ============================================================ */
+
+.about-intro-section {
+  padding-top: 6rem;
+}
+
+.about-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.about-intro-content .body-text + .body-text {
+  margin-top: -0.5rem;
+}
+
+.about-companies-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.about-company-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  transition: border-color 0.3s, transform 0.3s var(--ease), box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-company-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--green), var(--green-light));
+  transform: scaleX(0);
+  transition: transform 0.4s var(--ease);
+  transform-origin: left;
+}
+
+.about-company-card:hover {
+  border-color: rgba(47, 43, 73, 0.14);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.about-company-card:hover::before {
+  transform: scaleX(1);
+}
+
+.company-card-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.company-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+
+.company-desc {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+@media (max-width: 860px) {
+  .about-intro-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .about-companies-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
    MULTI-PAGE ADDITIONS
    ============================================================ */
 
