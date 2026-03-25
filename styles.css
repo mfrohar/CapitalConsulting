@@ -68,9 +68,9 @@ textarea { resize: vertical; }
   align-items: center;
   gap: 0.75rem;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--amber);
   margin-bottom: 1.25rem;
@@ -120,15 +120,7 @@ textarea { resize: vertical; }
   justify-content: center;
 }
 
-.section-header .section-label::after {
-  content: '';
-  display: block;
-  width: 22px;
-  height: 1.5px;
-  background: var(--amber);
-  opacity: 0.55;
-  flex-shrink: 0;
-}
+.section-header .section-label::after { display: none; }
 
 /* --- Buttons ---------------------------------------------- */
 .btn {
@@ -704,16 +696,29 @@ textarea { resize: vertical; }
   margin-bottom: 1.25rem;
 }
 
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.card-header .service-icon,
+.card-header .process-icon {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
 .service-icon {
   margin-bottom: 1.35rem;
 }
 
 .service-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
+  font-size: 1.65rem;
   font-weight: 700;
   color: var(--ink);
-  margin-bottom: 0.9rem;
+  margin-bottom: 0;
   letter-spacing: -0.01em;
 }
 
@@ -839,9 +844,10 @@ textarea { resize: vertical; }
 
 .process-phase {
   font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
+  font-size: 1.65rem;
   font-weight: 700;
   color: var(--ink);
+  margin-bottom: 0;
   margin-bottom: 0.75rem;
 }
 
@@ -914,7 +920,7 @@ textarea { resize: vertical; }
 
 .pillar-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.05rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 0.85rem;
