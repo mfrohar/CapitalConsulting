@@ -816,71 +816,40 @@ textarea { resize: vertical; }
   margin-top: 0.8rem;
 }
 
-/* --- Process (Timeline) ------------------------------------ */
-.timeline {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  max-width: 900px;
+/* --- Process (Grid) ---------------------------------------- */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 860px;
   margin: 0 auto;
 }
 
-.timeline-step {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1.5rem;
-}
-
-.timeline-dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--text-dim);
-  flex-shrink: 0;
-  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+.process-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
   position: relative;
-  z-index: 1;
 }
 
-.timeline-step.active .timeline-dot,
-.timeline-step.milestone .timeline-dot {
-  border-color: var(--green);
-  background: var(--green);
-  box-shadow: 0 0 0 5px rgba(47, 43, 73, 0.13);
+.process-icon {
+  margin-bottom: 1.35rem;
 }
 
-.timeline-connector {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-  align-self: flex-start;
-  margin-top: 7.5px;
-  max-width: 80px;
-}
-
-.timeline-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.timeline-phase {
+.process-phase {
   font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--ink);
+  margin-bottom: 0.75rem;
 }
 
-.timeline-desc {
-  font-size: 0.82rem;
+.process-desc {
+  font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.7;
-  max-width: 190px;
-  margin: 0 auto;
+  line-height: 1.75;
+  margin: 0;
 }
 
 /* --- Pillars ----------------------------------------------- */
@@ -1270,31 +1239,8 @@ textarea { resize: vertical; }
   .footer-brand { grid-column: 1 / -1; }
   .footer-bottom { flex-direction: column; text-align: center; gap: 0.5rem; }
 
-  .timeline {
-    flex-direction: column;
-    max-width: 420px;
-    gap: 0;
-  }
 
-  .timeline-step {
-    flex-direction: row;
-    text-align: left;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
-
-  .timeline-body { padding-bottom: 2rem; }
-
-  .timeline-connector {
-    width: 1px;
-    height: 40px;
-    max-width: none;
-    margin: 0;
-    align-self: auto;
-    margin-left: 7.5px;
-  }
-
-  .timeline-desc { max-width: none; margin: 0; }
+  .process-grid { grid-template-columns: 1fr; }
   .form-row { grid-template-columns: 1fr; }
 }
 
