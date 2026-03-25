@@ -225,11 +225,13 @@ textarea { resize: vertical; }
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  margin-left: -3.5rem;
 }
 
 .nav-logo-img {
-  height: 72px;
+  height: 270px;
   width: auto;
+  max-width: none;
   display: block;
 }
 
@@ -431,7 +433,7 @@ textarea { resize: vertical; }
 
 .hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3.4rem, 6.5vw, 5.8rem);
+  font-size: clamp(2.8rem, 5.2vw, 4.6rem);
   font-weight: 800;
   line-height: 1.0;
   letter-spacing: -0.035em;
@@ -1102,14 +1104,14 @@ textarea { resize: vertical; }
 .footer {
   background: var(--green);
   border-top: none;
-  padding: 6rem 0 3.5rem;
+  padding: 3.5rem 0 2rem;
 }
 
 .footer-inner {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 4rem;
-  margin-bottom: 4rem;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .footer-logo-wrap {
@@ -1119,6 +1121,14 @@ textarea { resize: vertical; }
 .footer-logo-img {
   height: 88px;
   width: auto;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.footer-logo {
+  height: 260px;
+  width: auto;
+  max-width: none;
   display: block;
   margin-bottom: 1rem;
 }
