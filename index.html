@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Capital Consulting — Engineers at heart. We build brands, run paid campaigns, and drive measurable growth through logos, brand strategy, SEO, and more.">
-  <title>Capital Consulting — Engineering-Led Marketing & Growth</title>
+  <title>Capital Consulting — Engineered Marketing & Growth</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,8 +23,9 @@
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
         <li><a href="#process">Our Process</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#contact" class="nav-cta">Get Started</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="work.html">Our Work</a></li>
+        <li><a href="contact.html" class="nav-cta">Contact</a></li>
       </ul>
       <button class="nav-menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -33,8 +34,9 @@
     <div class="nav-mobile" id="mobileMenu" aria-hidden="true">
       <a href="#services" class="mobile-link">Services</a>
       <a href="#process" class="mobile-link">Our Process</a>
-      <a href="#about" class="mobile-link">About Us</a>
-      <a href="#contact" class="mobile-link mobile-cta">Get Started</a>
+      <a href="about.html" class="mobile-link">About Us</a>
+      <a href="work.html" class="mobile-link">Our Work</a>
+      <a href="contact.html" class="mobile-link mobile-cta">Contact</a>
     </div>
   </nav>
 
@@ -49,8 +51,8 @@
         <h1 class="hero-title">Engineers Who<br><em>Build</em><br>Brands</h1>
         <p class="hero-subtitle">We're engineers at heart. We build brands, run campaigns, and ship results — no fluff, just execution.</p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Start a Project</a>
-          <a href="#services" class="btn btn-ghost">Our Services</a>
+          <a href="contact.html" class="btn btn-primary">Book a Strategy Call</a>
+          <a href="work.html" class="btn btn-ghost">View Our Work</a>
         </div>
       </div>
       <div class="hero-visual">
@@ -231,20 +233,16 @@
     <div class="container">
       <div class="stats-grid reveal">
         <div class="stat-block">
-          <span class="stat-num" data-target="150">150</span><span class="stat-suffix">+</span>
-          <span class="stat-label">Brands Served</span>
+          <div class="stat-value"><span class="stat-num" data-target="4">4</span></div>
+          <span class="stat-label">Ex-FANG Engineers</span>
         </div>
         <div class="stat-block">
-          <span class="stat-num" data-target="12">12</span><span class="stat-suffix">×</span>
-          <span class="stat-label">Avg. Client ROI</span>
+          <div class="stat-value"><span class="stat-num" data-target="10">10</span><span class="stat-suffix">+</span></div>
+          <span class="stat-label">Years Avg. Engineering Experience</span>
         </div>
         <div class="stat-block">
-          <span class="stat-num" data-target="98">98</span><span class="stat-suffix">%</span>
-          <span class="stat-label">Client Retention Rate</span>
-        </div>
-        <div class="stat-block">
-          <span class="stat-num" data-target="10">10</span><span class="stat-suffix">+</span>
-          <span class="stat-label">Years of Experience</span>
+          <div class="stat-value"><span class="stat-num" data-target="100">100</span><span class="stat-suffix">%</span></div>
+          <span class="stat-label">Client Retention</span>
         </div>
       </div>
     </div>
@@ -312,134 +310,69 @@
     </div>
   </section>
 
-  <!-- Why Capital Consulting -->
-  <section id="about" class="section section-alt">
+  <!-- About Teaser -->
+  <section id="about" class="section section-alt about-teaser">
     <div class="container">
-      <div class="section-header reveal">
-        <span class="section-label">Why Capital Consulting?</span>
-        <h2 class="section-title">Engineers Who Get<br>Things Done</h2>
-      </div>
-      <div class="pillars-grid">
-
-        <div class="pillar reveal">
-          <div class="pillar-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <path d="M11 2L20 7V15L11 20L2 15V7L11 2Z" stroke="#2F2B49" stroke-width="1.4" fill="none"/>
-              <path d="M11 2V20M2 7L20 7M2 15L20 15" stroke="#2F2B49" stroke-width="0.7" opacity="0.4"/>
-            </svg>
-          </div>
-          <h3 class="pillar-title">Engineers First</h3>
-          <p class="pillar-body">We approach marketing the way engineers approach systems — rigorously. We define clear goals, map the right channels, and architect a strategy before a single dollar is spent.</p>
+      <div class="about-teaser-inner reveal">
+        <div class="about-teaser-content">
+          <span class="section-label">Who We Are</span>
+          <h2 class="section-title">4 Engineers.<br>Zero Fluff.</h2>
+          <p class="body-text">We're a team of four ex-FANG engineers who got tired of watching bad marketing waste good businesses. We understand systems, processes, and data at a level most agencies never will. So we built the firm we always wanted to hire.</p>
+          <a href="about.html" class="btn btn-primary">Meet the Team</a>
         </div>
-
-        <div class="pillar reveal">
-          <div class="pillar-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <circle cx="11" cy="11" r="9" stroke="#2F2B49" stroke-width="1.4" fill="none"/>
-              <path d="M7 11L10 14L15 9" stroke="#2F2B49" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <div class="about-teaser-pillars">
+          <div class="about-mini-pillar reveal">
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M4 11L8 7L12 11L16 5L20 9" stroke="#2F2B49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 18H19" stroke="#2F2B49" stroke-width="0.7" opacity="0.4"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="pillar-title">Everything Is Data</h3>
+              <p class="pillar-body">Every decision is instrumented, every hypothesis tested. We don't guess — we measure.</p>
+            </div>
           </div>
-          <h3 class="pillar-title">Proven Results</h3>
-          <p class="pillar-body">We're accountable to outcomes, not outputs. Our clients consistently see meaningful improvements in brand awareness, lead quality, and revenue growth within the first 90 days.</p>
-        </div>
-
-        <div class="pillar reveal">
-          <div class="pillar-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <path d="M4 11L8 7L12 11L16 5L20 9" stroke="#2F2B49" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M3 18H19" stroke="#2F2B49" stroke-width="0.7" opacity="0.4"/>
-            </svg>
+          <div class="about-mini-pillar reveal">
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M11 2L20 7V15L11 20L2 15V7L11 2Z" stroke="#2F2B49" stroke-width="1.4" fill="none"/>
+                <path d="M11 2V20M2 7L20 7M2 15L20 15" stroke="#2F2B49" stroke-width="0.7" opacity="0.4"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="pillar-title">We Understand Process</h3>
+              <p class="pillar-body">Working at FANG-tier orgs means nothing ships without a process. We bring that same rigour to marketing.</p>
+            </div>
           </div>
-          <h3 class="pillar-title">Data-Driven Decisions</h3>
-          <p class="pillar-body">Intuition informs our creative thinking — data drives our strategic choices. Every campaign is instrumented, every hypothesis is tested, and every decision is traceable to business impact.</p>
-        </div>
-
-        <div class="pillar reveal">
-          <div class="pillar-icon">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <path d="M11 2C7.5 2 4 4.5 4 8.5C4 13.5 11 20 11 20C11 20 18 13.5 18 8.5C18 4.5 14.5 2 11 2Z" stroke="#2F2B49" stroke-width="1.4" fill="none"/>
-              <circle cx="11" cy="8.5" r="2.5" stroke="#2F2B49" stroke-width="1.4" fill="none"/>
-            </svg>
+          <div class="about-mini-pillar reveal">
+            <div class="pillar-icon">
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M11 2C7.5 2 4 4.5 4 8.5C4 13.5 11 20 11 20C11 20 18 13.5 18 8.5C18 4.5 14.5 2 11 2Z" stroke="#2F2B49" stroke-width="1.4" fill="none"/>
+                <circle cx="11" cy="8.5" r="2.5" stroke="#2F2B49" stroke-width="1.4" fill="none"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="pillar-title">Here to Execute</h3>
+              <p class="pillar-body">We don't produce decks and disappear. We build, ship, and iterate until it works.</p>
+            </div>
           </div>
-          <h3 class="pillar-title">Built to Execute</h3>
-          <p class="pillar-body">We're engineers — we don't just advise, we build and ship. When we take on a project, it gets done right and on time. Logos, campaigns, decks, ads — delivered, not just discussed.</p>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section">
+  <!-- CTA Banner -->
+  <section class="section cta-banner">
     <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <span class="section-label">Get in Touch</span>
-          <h2 class="section-title">Let's Build<br>Something Real</h2>
-          <p class="body-text">
-            Tell us about your business and goals. We'll respond within one business day
-            to discuss how Capital Consulting can help you grow.
-          </p>
-          <div class="contact-meta">
-            <div class="contact-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M2.5 4.5C2.5 3.95 2.95 3.5 3.5 3.5H12.5C13.05 3.5 13.5 3.95 13.5 4.5V11.5C13.5 12.05 13.05 12.5 12.5 12.5H3.5C2.95 12.5 2.5 12.05 2.5 11.5V4.5Z" stroke="#2F2B49" stroke-width="1.3" fill="none"/>
-                <path d="M2.5 4.5L8 8.5L13.5 4.5" stroke="#2F2B49" stroke-width="1.3" stroke-linecap="round"/>
-              </svg>
-              <span>info@capitalconsulting.ca</span>
-            </div>
-            <div class="contact-item">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 1.5C5.51 1.5 3 3.37 3 6.25C3 9.63 8 14.5 8 14.5C8 14.5 13 9.63 13 6.25C13 3.37 10.49 1.5 8 1.5ZM8 7.75C7.17 7.75 6.5 7.08 6.5 6.25C6.5 5.42 7.17 4.75 8 4.75C8.83 4.75 9.5 5.42 9.5 6.25C9.5 7.08 8.83 7.75 8 7.75Z" fill="#2F2B49"/>
-              </svg>
-              <span>Ottawa, ON &mdash; Serving Clients Nationwide</span>
-            </div>
-          </div>
-          <div class="contact-divider"></div>
-          <p class="contact-promise">
-            <strong>No commitment required.</strong> We start every relationship with an honest conversation about your goals and whether we're the right fit.
-          </p>
+      <div class="cta-banner-inner reveal">
+        <div class="cta-banner-text">
+          <h2 class="section-title" style="margin-bottom:0.5rem;">Ready to Build<br>Something Real?</h2>
+          <p class="body-text" style="margin-bottom:0;">Let's talk about your goals — no commitment required.</p>
         </div>
-        <div class="contact-form-wrap reveal">
-          <form id="contactForm" class="contact-form" novalidate>
-            <p class="form-title">Start a Conversation</p>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name">
-              </div>
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="jane@yourcompany.com" required autocomplete="email">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="company">Company <span class="label-opt">(Optional)</span></label>
-              <input type="text" id="company" name="company" placeholder="Your Company" autocomplete="organization">
-            </div>
-            <div class="form-group">
-              <label for="message">How Can We Help?</label>
-              <textarea id="message" name="message" rows="4" placeholder="Tell us about your business and what you're looking to achieve..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-gold btn-full">
-              <span>Send Message</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <p class="form-note">We respond within one business day. Your information is kept strictly confidential.</p>
-          </form>
-          <div id="formSuccess" class="form-success" hidden>
-            <div class="success-check">
-              <div class="success-check-circle">
-                <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-                  <path d="M7 13L11 17L19 9" stroke="#2F2B49" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-            </div>
-            <h3>Message Received</h3>
-            <p>Thanks for reaching out. We'll be in touch within one business day to discuss how we can help grow your brand.</p>
-          </div>
+        <div class="cta-banner-actions">
+          <a href="contact.html" class="btn btn-primary">Book a Strategy Call</a>
+          <a href="work.html" class="btn btn-ghost">View Our Work</a>
         </div>
       </div>
     </div>
@@ -458,8 +391,9 @@
           <nav class="footer-nav">
             <a href="#services">Services</a>
             <a href="#process">Our Process</a>
-            <a href="#about">About Us</a>
-            <a href="#contact">Get Started</a>
+            <a href="about.html">About Us</a>
+            <a href="work.html">Our Work</a>
+            <a href="contact.html">Contact</a>
           </nav>
         </div>
         <div class="footer-contact-col">
