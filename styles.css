@@ -1754,6 +1754,19 @@ textarea { resize: vertical; }
   min-height: 280px;
 }
 
+.work-mockup-screenshot {
+  padding: 0;
+  min-height: unset;
+  overflow: hidden;
+}
+
+.work-mockup-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0 0 12px 12px;
+}
+
 /* Construction mockup color accent */
 .work-mockup-construction .mockup-btn-primary {
   background: #3a3558;
