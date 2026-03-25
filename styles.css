@@ -1463,7 +1463,7 @@ textarea { resize: vertical; }
 /* --- CTA Banner -------------------------------------------- */
 .cta-banner {
   background: var(--green) !important;
-  padding: 7rem 0;
+  padding: 4rem 0;
 }
 
 .cta-banner-inner {
