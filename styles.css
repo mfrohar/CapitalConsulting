@@ -1131,9 +1131,8 @@ textarea { resize: vertical; }
 }
 
 .footer-logo {
-  height: 360px;
+  height: 72px;
   width: auto;
-  max-width: none;
   display: block;
   margin-bottom: 1rem;
 }
@@ -1166,7 +1165,7 @@ textarea { resize: vertical; }
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: rgba(255, 255, 255, 0.55);
   margin-bottom: 1.35rem;
 }
 
@@ -1184,7 +1183,7 @@ textarea { resize: vertical; }
 
 .footer-nav a:hover { color: #ffffff; }
 
-.footer-contact-col p {
+.footer-contact-col p:not(.footer-col-title) {
   font-size: 0.88rem;
   color: rgba(255, 255, 255, 0.5);
   line-height: 1.9;
