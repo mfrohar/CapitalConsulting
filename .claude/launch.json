@@ -7,6 +7,14 @@
       "runtimeArgs": ["-c", "cd /tmp/capital-consulting && python3 -m http.server $PORT"],
       "port": 4201,
       "autoPort": true
+    },
+    {
+      "name": "portal",
+      "runtimeExecutable": "/opt/homebrew/bin/npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "$PORT"],
+      "port": 3001,
+      "autoPort": true,
+      "cwd": "/Users/mehranfrohar/Documents/CapitalCosulting/portal"
     }
   ]
 }
