@@ -1,11 +1,18 @@
+import { createClient } from '@/lib/supabase-server'
+import { redirect } from 'next/navigation'
 import RequestForm from '@/components/RequestForm'
 
-export default function NewRequestPage() {
+export default async function NewRequestPage() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) redirect('/login')
+
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-primary">New Request</h1>
-        <p className="text-gray-500 text-sm mt-1">Submit a content request to Capital Consulting</p>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">New Request</h1>
+        <p className="text-gray-500 text-sm mt-1">Submit a new request to Capital Consulting</p>
       </div>
       <RequestForm />
     </div>
