@@ -42,9 +42,13 @@ export default async function AdminPage() {
       mode,
       status,
       created_at,
+      preferred_deadline,
       clients (
         name,
         company
+      ),
+      social_media_details (
+        scheduled_date
       )
     `)
     .order('created_at', { ascending: false })
@@ -96,7 +100,8 @@ export default async function AdminPage() {
                   <th className="text-left px-6 py-3 font-medium text-gray-600">Client</th>
                   <th className="text-left px-6 py-3 font-medium text-gray-600">Type</th>
                   <th className="text-left px-6 py-3 font-medium text-gray-600">Mode</th>
-                  <th className="text-left px-6 py-3 font-medium text-gray-600">Date</th>
+                  <th className="text-left px-6 py-3 font-medium text-gray-600">Submitted</th>
+                  <th className="text-left px-6 py-3 font-medium text-gray-600">Posting Date</th>
                   <th className="text-left px-6 py-3 font-medium text-gray-600">Status</th>
                   <th className="px-6 py-3"></th>
                 </tr>
@@ -104,6 +109,8 @@ export default async function AdminPage() {
               <tbody className="divide-y divide-gray-100">
                 {grouped[status]!.map((req) => {
                   const clientData = req.clients as unknown as { name: string; company: string } | null
+                  const socialData = req.social_media_details as unknown as { scheduled_date: string | null } | null
+                  const postingDate = socialData?.scheduled_date ?? req.preferred_deadline ?? null
                   return (
                     <tr key={req.id} className="hover:bg-gray-50 transition">
                       <td className="px-6 py-4 font-medium text-gray-800">{req.title}</td>
@@ -123,6 +130,15 @@ export default async function AdminPage() {
                           month: 'short',
                           day: 'numeric',
                         })}
+                      </td>
+                      <td className="px-6 py-4 text-gray-500">
+                        {postingDate
+                          ? new Date(postingDate).toLocaleDateString('en-CA', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })
+                          : <span className="text-gray-300">—</span>}
                       </td>
                       <td className="px-6 py-4">
                         <Badge status={req.status} />
