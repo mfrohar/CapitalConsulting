@@ -28,7 +28,7 @@ export async function PATCH(
     }
 
     const body = await request.json()
-    const { status } = body
+    const { status, quoted_price } = body
     const admin = createAdminClient()
 
     // Get the request
@@ -42,18 +42,32 @@ export async function PATCH(
       return NextResponse.json({ error: 'Request not found' }, { status: 404 })
     }
 
+    // Build update payload — only include fields the schema has
+    const updatePayload: Record<string, unknown> = { status }
+    if (quoted_price !== undefined && quoted_price !== '') {
+      updatePayload.quoted_price = Number(quoted_price)
+    }
+    if (status === 'completed' && req.status !== 'completed') {
+      updatePayload.completed_at = new Date().toISOString()
+    }
+
     // Update status
     const { error: updateError } = await admin
       .from('requests')
-      .update({ status, updated_at: new Date().toISOString() })
+      .update(updatePayload)
       .eq('id', params.id)
 
     if (updateError) {
       return NextResponse.json({ error: 'Failed to update status' }, { status: 500 })
     }
 
-    // If completing, deduct $100 from retainer
+    // If completing, deduct the quoted price (or fallback) from retainer
     if (status === 'completed' && req.status !== 'completed') {
+      const deductAmount =
+        quoted_price !== undefined && quoted_price !== ''
+          ? Number(quoted_price)
+          : COST_PER_REQUEST
+
       const { data: retainer } = await admin
         .from('retainer_accounts')
         .select('id, balance')
@@ -61,7 +75,7 @@ export async function PATCH(
         .single()
 
       if (retainer) {
-        const newBalance = Math.max(0, Number(retainer.balance) - COST_PER_REQUEST)
+        const newBalance = Math.max(0, Number(retainer.balance) - deductAmount)
 
         await admin
           .from('retainer_accounts')
@@ -70,9 +84,10 @@ export async function PATCH(
 
         await admin.from('retainer_transactions').insert({
           client_id: req.client_id,
-          amount: COST_PER_REQUEST,
+          amount: deductAmount,
           type: 'debit',
           description: `Request completed: ${req.title}`,
+          related_request_id: params.id,
         })
       }
     }

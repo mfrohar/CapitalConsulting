@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Protect client routes
-  const clientRoutes = ['/dashboard', '/requests', '/retainer']
+  const clientRoutes = ['/dashboard', '/requests', '/retainer', '/invoices']
   const isClientRoute = clientRoutes.some((route) => pathname.startsWith(route))
 
   if (isClientRoute && !user) {

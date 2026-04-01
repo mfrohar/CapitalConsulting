@@ -11,7 +11,7 @@ export default async function RequestsPage() {
 
   const { data: requests } = await supabase
     .from('requests')
-    .select('id, title, type, status, created_at, description')
+    .select('id, title, type, status, created_at, description, quoted_price, completed_at')
     .eq('client_id', user.id)
     .order('created_at', { ascending: false })
 
