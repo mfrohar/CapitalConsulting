@@ -8,7 +8,10 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar
-        links={[{ href: '/admin', label: 'Admin Queue' }]}
+        links={[
+          { href: '/admin', label: 'Admin Queue' },
+          { href: '/admin/clients', label: 'Clients' },
+        ]}
         adminMode
       />
       <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
