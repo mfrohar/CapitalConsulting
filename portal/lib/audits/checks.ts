@@ -477,3 +477,342 @@ export function checkCanonicalUrl(html: string): CheckResult {
     findings: { title: 'Canonical URL & Crawlability', details: issues, recommendations },
   }
 }
+
+// ─── 9. Technical SEO — Robots.txt ───────────────────────────────────────────
+
+export async function checkRobotsTxt(url: string): Promise<CheckResult> {
+  const base = new URL(url.startsWith('http') ? url : `https://${url}`)
+  const robotsUrl = `${base.protocol}//${base.hostname}/robots.txt`
+
+  try {
+    const res = await fetch(robotsUrl, {
+      signal: AbortSignal.timeout(8000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; CapitalConsultingAudit/1.0)' },
+    })
+
+    const issues: string[] = []
+    const recommendations: string[] = []
+    let score = 100
+
+    if (!res.ok) {
+      issues.push('robots.txt file not found')
+      recommendations.push('Create a robots.txt file at your domain root to guide search engine crawlers')
+      score = 25
+    } else {
+      const text = await res.text()
+      issues.push('robots.txt file exists')
+
+      // Check if blocking all crawlers
+      if (/disallow:\s*\//i.test(text) && /user-agent:\s*\*/i.test(text)) {
+        issues.push('WARNING: robots.txt appears to block all crawlers (Disallow: /)')
+        recommendations.push('Review your robots.txt — "Disallow: /" prevents all search engines from indexing your site')
+        score = 15
+      }
+
+      // Sitemap reference
+      if (/sitemap:/i.test(text)) {
+        issues.push('Sitemap URL referenced in robots.txt')
+      } else {
+        recommendations.push('Add a Sitemap: line in robots.txt pointing to your XML sitemap')
+        score -= 20
+      }
+    }
+
+    return {
+      status: score >= 80 ? 'pass' : score >= 40 ? 'warning' : 'fail',
+      score: Math.max(0, score),
+      findings: { title: res.ok ? 'robots.txt found' : 'robots.txt missing', details: issues, recommendations },
+    }
+  } catch {
+    return {
+      status: 'warning',
+      score: 50,
+      findings: {
+        title: 'Could not check robots.txt',
+        details: ['Request timed out or connection was refused'],
+        recommendations: ['Ensure robots.txt is publicly accessible at the root of your domain'],
+      },
+    }
+  }
+}
+
+// ─── 10. Technical SEO — XML Sitemap ─────────────────────────────────────────
+
+export async function checkSitemapXml(url: string): Promise<CheckResult> {
+  const base = new URL(url.startsWith('http') ? url : `https://${url}`)
+  const sitemapUrl = `${base.protocol}//${base.hostname}/sitemap.xml`
+
+  try {
+    const res = await fetch(sitemapUrl, {
+      signal: AbortSignal.timeout(8000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; CapitalConsultingAudit/1.0)' },
+    })
+
+    const issues: string[] = []
+    const recommendations: string[] = []
+    let score = 100
+
+    if (!res.ok) {
+      issues.push('sitemap.xml not found')
+      recommendations.push('Create an XML sitemap listing all important pages on your site')
+      recommendations.push('Submit your sitemap to Google Search Console to accelerate indexing')
+      score = 20
+    } else {
+      const text = await res.text()
+      const urlCount = (text.match(/<url>/gi) || []).length
+      issues.push(`sitemap.xml found — ${urlCount} URL${urlCount !== 1 ? 's' : ''} listed`)
+
+      if (urlCount === 0) {
+        recommendations.push('Sitemap exists but is empty — add your important page URLs')
+        score = 50
+      } else if (urlCount < 3) {
+        recommendations.push('Consider adding more pages to your sitemap for better crawl coverage')
+        score -= 10
+      }
+    }
+
+    return {
+      status: score >= 80 ? 'pass' : score >= 40 ? 'warning' : 'fail',
+      score: Math.max(0, score),
+      findings: { title: res.ok ? 'XML sitemap found' : 'XML sitemap missing', details: issues, recommendations },
+    }
+  } catch {
+    return {
+      status: 'warning',
+      score: 50,
+      findings: {
+        title: 'Could not check sitemap.xml',
+        details: ['Request timed out or connection was refused'],
+        recommendations: ['Ensure sitemap.xml is publicly accessible at the root of your domain'],
+      },
+    }
+  }
+}
+
+// ─── 11. Security — HTTP Security Headers ────────────────────────────────────
+
+export async function checkSecurityHeaders(url: string): Promise<CheckResult> {
+  try {
+    const normalizedUrl = url.startsWith('http') ? url : `https://${url}`
+    const res = await fetch(normalizedUrl, {
+      method: 'HEAD',
+      signal: AbortSignal.timeout(10000),
+      redirect: 'follow',
+    })
+
+    const h = res.headers
+    const issues: string[] = []
+    const recommendations: string[] = []
+    let score = 100
+
+    const headerChecks = [
+      {
+        header: 'x-frame-options',
+        deduction: 20,
+        rec: 'Add X-Frame-Options: SAMEORIGIN to prevent clickjacking attacks',
+      },
+      {
+        header: 'x-content-type-options',
+        deduction: 15,
+        rec: 'Add X-Content-Type-Options: nosniff to prevent MIME-type sniffing',
+      },
+      {
+        header: 'strict-transport-security',
+        deduction: 20,
+        rec: 'Add Strict-Transport-Security header to enforce HTTPS connections',
+      },
+      {
+        header: 'referrer-policy',
+        deduction: 10,
+        rec: 'Add Referrer-Policy header to control how referrer info is shared',
+      },
+      {
+        header: 'permissions-policy',
+        deduction: 10,
+        rec: 'Add Permissions-Policy to restrict access to browser APIs (camera, mic, etc.)',
+      },
+    ]
+
+    for (const check of headerChecks) {
+      if (h.get(check.header)) {
+        issues.push(`✓ ${check.header}`)
+      } else {
+        issues.push(`✗ ${check.header} missing`)
+        recommendations.push(check.rec)
+        score -= check.deduction
+      }
+    }
+
+    const passed = headerChecks.filter(c => h.get(c.header)).length
+    return {
+      status: score >= 80 ? 'pass' : score >= 50 ? 'warning' : 'fail',
+      score: Math.max(0, score),
+      findings: {
+        title: `Security headers: ${passed}/${headerChecks.length} present`,
+        details: issues,
+        recommendations,
+      },
+    }
+  } catch {
+    return {
+      status: 'warning',
+      score: 50,
+      findings: {
+        title: 'Could not check security headers',
+        details: ['Request timed out or was blocked'],
+        recommendations: ['Review your server or CDN configuration to add security headers'],
+      },
+    }
+  }
+}
+
+// ─── 12. UX/Design — Contact Information ─────────────────────────────────────
+
+export function checkContactInfo(html: string): CheckResult {
+  const issues: string[] = []
+  const recommendations: string[] = []
+  let score = 100
+
+  const hasPhone   = /(\+?1[\s.\-]?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}|tel:/i.test(html)
+  const hasEmail   = /[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}|mailto:/i.test(html)
+  const hasAddress = /(street|avenue|ave|blvd|road|rd|suite|ste|floor|st\.|dr\.|drive|\d{3,5}\s+\w)/i.test(html)
+  const hasContact = /href=["'][^"']*contact[^"']*["']|<a[^>]*>contact/i.test(html)
+
+  if (hasPhone) {
+    issues.push('✓ Phone number found')
+  } else {
+    issues.push('✗ No phone number detected')
+    recommendations.push('Add a visible phone number — customers expect to call local businesses directly')
+    score -= 30
+  }
+
+  if (hasEmail) {
+    issues.push('✓ Email address or mailto link found')
+  } else {
+    issues.push('✗ No email address detected')
+    recommendations.push('Add a contact email or mailto link so customers can reach you easily')
+    score -= 20
+  }
+
+  if (hasAddress) {
+    issues.push('✓ Physical address found')
+  } else {
+    issues.push('✗ No physical address detected')
+    recommendations.push('Add your business address — essential for local SEO and customer trust')
+    score -= 25
+  }
+
+  if (hasContact) {
+    issues.push('✓ Contact page link found')
+  } else {
+    issues.push('✗ No contact page link found')
+    recommendations.push('Add a clearly labelled "Contact" link in your navigation menu')
+    score -= 10
+  }
+
+  return {
+    status: score >= 80 ? 'pass' : score >= 50 ? 'warning' : 'fail',
+    score: Math.max(0, score),
+    findings: {
+      title: `Contact info: ${score >= 80 ? 'Good' : score >= 50 ? 'Partial' : 'Missing'}`,
+      details: issues,
+      recommendations,
+    },
+  }
+}
+
+// ─── 13. Digital Footprint — Schema / Structured Data ────────────────────────
+
+export function checkSchemaMarkup(html: string): CheckResult {
+  const issues: string[] = []
+  const recommendations: string[] = []
+  let score = 100
+
+  const jsonLdBlocks = html.match(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi) || []
+  const hasMicrodata = /itemtype=["']https?:\/\/schema\.org/i.test(html)
+
+  if (jsonLdBlocks.length > 0) {
+    issues.push(`✓ ${jsonLdBlocks.length} JSON-LD structured data block(s) found`)
+
+    // Identify schema types
+    const types: string[] = []
+    for (const block of jsonLdBlocks) {
+      const match = block.match(/"@type"\s*:\s*"([^"]+)"/)
+      if (match) types.push(match[1])
+    }
+    if (types.length > 0) {
+      issues.push(`Schema types detected: ${types.join(', ')}`)
+    }
+  } else if (hasMicrodata) {
+    issues.push('✓ Microdata schema markup found (schema.org)')
+    score -= 10 // JSON-LD is preferred by Google
+    recommendations.push('Consider migrating from Microdata to JSON-LD — Google recommends JSON-LD')
+  } else {
+    issues.push('✗ No structured data (schema markup) found')
+    recommendations.push('Add JSON-LD structured data to help Google understand your business')
+    recommendations.push('For local businesses, use LocalBusiness schema with name, address, phone, and hours')
+    recommendations.push('Test your schema at: https://search.google.com/test/rich-results')
+    score = 20
+  }
+
+  return {
+    status: score >= 80 ? 'pass' : score >= 40 ? 'warning' : 'fail',
+    score: Math.max(0, score),
+    findings: {
+      title: jsonLdBlocks.length > 0 || hasMicrodata ? 'Structured data found' : 'No structured data found',
+      details: issues,
+      recommendations,
+    },
+  }
+}
+
+// ─── 14. Backlinks — Social Media Presence ───────────────────────────────────
+
+export function checkSocialLinks(html: string): CheckResult {
+  const issues: string[] = []
+  const recommendations: string[] = []
+
+  const platforms = [
+    { name: 'Facebook',   pattern: /facebook\.com\//i },
+    { name: 'Instagram',  pattern: /instagram\.com\//i },
+    { name: 'LinkedIn',   pattern: /linkedin\.com\//i },
+    { name: 'Twitter/X',  pattern: /twitter\.com\/|x\.com\//i },
+    { name: 'YouTube',    pattern: /youtube\.com\//i },
+    { name: 'TikTok',     pattern: /tiktok\.com\//i },
+  ]
+
+  const found  = platforms.filter(p => p.pattern.test(html)).map(p => p.name)
+  const missing = platforms.filter(p => !p.pattern.test(html)).map(p => p.name)
+
+  if (found.length > 0) {
+    issues.push(`✓ Social profiles linked: ${found.join(', ')}`)
+  } else {
+    issues.push('✗ No social media profile links found on page')
+  }
+
+  let score: number
+  if (found.length === 0) {
+    score = 25
+    recommendations.push('Add links to your social media profiles — builds trust and engagement')
+    recommendations.push('Facebook and Instagram are most important for local businesses')
+  } else if (found.length === 1) {
+    score = 55
+    recommendations.push(`Consider linking additional profiles (${missing.slice(0, 3).join(', ')})`)
+  } else if (found.length === 2) {
+    score = 75
+    recommendations.push(`Good start — consider adding ${missing[0]} for wider reach`)
+  } else {
+    score = 100
+    issues.push('Strong social media presence on the page')
+  }
+
+  return {
+    status: score >= 80 ? 'pass' : score >= 50 ? 'warning' : 'fail',
+    score,
+    findings: {
+      title: found.length > 0 ? `${found.length} social profile(s) linked` : 'No social links found',
+      details: issues,
+      recommendations,
+    },
+  }
+}

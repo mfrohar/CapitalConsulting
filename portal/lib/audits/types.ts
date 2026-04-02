@@ -64,19 +64,35 @@ export const DIMENSIONS = {
 
 export type DimensionKey = keyof typeof DIMENSIONS
 
-// Check definitions: check_name → dimension
+// Check definitions: check_name → dimension (16 total)
 export const CHECK_DIMENSIONS: Record<string, DimensionKey> = {
-  meta_tags: 'technical_seo',
+  // Technical SEO (3)
+  meta_tags:          'technical_seo',
+  robots_txt:         'technical_seo',
+  sitemap_xml:        'technical_seo',
+  // Performance (2 — PSI real score + static fallback)
+  page_speed:         'performance',
   image_optimization: 'performance',
-  ssl_certificate: 'security',
-  mobile_viewport: 'mobile',
-  image_alt_text: 'accessibility',
-  heading_structure: 'ux_design',
-  open_graph: 'digital_footprint',
-  canonical_url: 'backlinks',
+  // Security (2)
+  ssl_certificate:    'security',
+  security_headers:   'security',
+  // Mobile (1)
+  mobile_viewport:    'mobile',
+  // Accessibility (2 — PSI real score + static)
+  psi_accessibility:  'accessibility',
+  image_alt_text:     'accessibility',
+  // UX & Design (2)
+  heading_structure:  'ux_design',
+  contact_info:       'ux_design',
+  // Digital Footprint (2)
+  open_graph:         'digital_footprint',
+  schema_markup:      'digital_footprint',
+  // Backlinks (2)
+  canonical_url:      'backlinks',
+  social_links:       'backlinks',
 }
 
-export const TOTAL_CHECKS = Object.keys(CHECK_DIMENSIONS).length
+export const TOTAL_CHECKS = Object.keys(CHECK_DIMENSIONS).length // 16
 
 export const BUSINESS_TYPES = [
   'Restaurant',
