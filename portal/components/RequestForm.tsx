@@ -1,10 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase'
 
 type RequestType = 'website_content' | 'blog' | 'social_media'
 type RequestMode = 'self_serve' | 'firm_creates'
+
+const ACCEPTED_FILE_TYPES = 'image/*,.pdf,.doc,.docx,.txt,.csv,.mp4,.mov,.avi'
 
 const PLATFORMS = ['Instagram', 'Facebook', 'LinkedIn', 'X/Twitter']
 
@@ -41,6 +44,7 @@ const MODE_OPTIONS: { value: RequestMode; label: string; description: string }[]
 
 export default function RequestForm() {
   const router = useRouter()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [step, setStep] = useState(1)
   const [type, setType] = useState<RequestType | null>(null)
   const [mode, setMode] = useState<RequestMode | null>(null)
@@ -49,6 +53,7 @@ export default function RequestForm() {
   const [deadline, setDeadline] = useState('')
   const [platforms, setPlatforms] = useState<string[]>([])
   const [scheduledDate, setScheduledDate] = useState('')
+  const [files, setFiles] = useState<File[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -56,6 +61,41 @@ export default function RequestForm() {
     setPlatforms((prev) =>
       prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]
     )
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const selected = Array.from(e.target.files ?? [])
+    setFiles((prev) => {
+      const existing = new Set(prev.map((f) => f.name + f.size))
+      return [...prev, ...selected.filter((f) => !existing.has(f.name + f.size))]
+    })
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  function removeFile(index: number) {
+    setFiles((prev) => prev.filter((_, i) => i !== index))
+  }
+
+  async function uploadFiles(requestId: string) {
+    if (files.length === 0) return
+    const supabase = createClient()
+    for (const file of files) {
+      const ext = file.name.split('.').pop()
+      const path = `${requestId}/${crypto.randomUUID()}.${ext}`
+      const { error: uploadError } = await supabase.storage
+        .from('request-attachments')
+        .upload(path, file)
+      if (uploadError) continue
+      const { data: urlData } = supabase.storage
+        .from('request-attachments')
+        .getPublicUrl(path)
+      await supabase.from('request_attachments').insert({
+        request_id: requestId,
+        file_url: urlData.publicUrl,
+        file_name: file.name,
+        uploaded_by: 'client',
+      })
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -90,6 +130,10 @@ export default function RequestForm() {
       setError(data.error ?? 'Failed to submit request.')
       setLoading(false)
       return
+    }
+
+    if (files.length > 0) {
+      await uploadFiles(data.request.id)
     }
 
     router.push('/requests')
@@ -228,6 +272,56 @@ export default function RequestForm() {
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition"
             />
           </div>
+
+          {/* Ad file upload — only shown when client chose Self Serve */}
+          {mode === 'self_serve' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Your ad files <span className="text-gray-400 font-normal">(optional)</span>
+              </label>
+              <p className="text-xs text-gray-500 mb-2">
+                Attach your self-created ads or content — images, videos, documents, etc.
+              </p>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full border-2 border-dashed border-gray-300 rounded-lg px-4 py-5 text-sm text-gray-500 hover:border-primary hover:text-primary transition text-center"
+              >
+                Click to add files
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept={ACCEPTED_FILE_TYPES}
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              {files.length > 0 && (
+                <ul className="mt-3 space-y-2">
+                  {files.map((file, i) => (
+                    <li
+                      key={i}
+                      className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg px-3 py-2"
+                    >
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-gray-700 truncate">{file.name}</p>
+                        <p className="text-xs text-gray-400">{(file.size / 1024).toFixed(0)} KB</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeFile(i)}
+                        className="ml-3 text-gray-400 hover:text-red-500 transition text-lg leading-none flex-shrink-0"
+                        aria-label="Remove file"
+                      >
+                        &times;
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">

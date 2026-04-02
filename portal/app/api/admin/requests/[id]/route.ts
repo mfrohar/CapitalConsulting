@@ -61,8 +61,13 @@ export async function PATCH(
       return NextResponse.json({ error: 'Failed to update status' }, { status: 500 })
     }
 
-    // If completing, deduct $100 from retainer
+    // If completing, deduct the quoted price (or fallback) from retainer
     if (status === 'completed' && req.status !== 'completed') {
+      const deductAmount =
+        quoted_price !== undefined && quoted_price !== ''
+          ? Number(quoted_price)
+          : COST_PER_REQUEST
+
       const { data: retainer } = await admin
         .from('retainer_accounts')
         .select('id, balance')
@@ -70,7 +75,7 @@ export async function PATCH(
         .single()
 
       if (retainer) {
-        const newBalance = Math.max(0, Number(retainer.balance) - COST_PER_REQUEST)
+        const newBalance = Math.max(0, Number(retainer.balance) - deductAmount)
 
         await admin
           .from('retainer_accounts')
@@ -79,9 +84,10 @@ export async function PATCH(
 
         await admin.from('retainer_transactions').insert({
           client_id: req.client_id,
-          amount: COST_PER_REQUEST,
+          amount: deductAmount,
           type: 'debit',
           description: `Request completed: ${req.title}`,
+          related_request_id: params.id,
         })
       }
     }

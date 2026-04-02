@@ -10,6 +10,7 @@ export default function AdminLayout({
       <Navbar
         links={[
           { href: '/admin', label: 'Admin Queue' },
+          { href: '/admin/clients', label: 'Clients' },
           { href: '/admin/audits', label: 'Web Audits' },
         ]}
         adminMode

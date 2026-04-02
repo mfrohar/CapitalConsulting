@@ -11,6 +11,8 @@ interface Request {
   type: string
   status: string
   created_at: string
+  quoted_price?: number | null
+  completed_at?: string | null
 }
 
 interface RequestListProps {
@@ -84,7 +86,15 @@ export default function RequestList({ requests }: RequestListProps) {
               <td className="px-6 py-4">
                 <Badge status={req.status} />
               </td>
-              <td className="px-6 py-4 text-right">
+              <td className="px-6 py-4 text-right space-x-3">
+                {req.status === 'completed' && (
+                  <Link
+                    href={`/invoices/${req.id}`}
+                    className="text-primary hover:underline text-sm font-medium"
+                  >
+                    Invoice
+                  </Link>
+                )}
                 {req.status === 'pending' && (
                   <button
                     onClick={() => handleDelete(req.id)}
