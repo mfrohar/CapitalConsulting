@@ -30,10 +30,11 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-start justify-center pt-16 sm:items-center sm:pt-0 px-4">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8 w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Reset Password</h1>
+          <img src="/logo.svg" alt="Capital Consulting" className="h-10 w-auto mx-auto mb-4" />
+          <h1 className="text-xl font-bold text-gray-900">Reset Password</h1>
           <p className="text-gray-500 text-sm mt-1">We'll send you a reset link</p>
         </div>
 

@@ -11,6 +11,7 @@ export default function AdminLayout({
         links={[
           { href: '/admin', label: 'Admin Queue' },
           { href: '/admin/clients', label: 'Clients' },
+          { href: '/admin/audits', label: 'Web Audits' },
         ]}
         adminMode
       />
