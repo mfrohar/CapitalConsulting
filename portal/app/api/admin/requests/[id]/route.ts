@@ -42,7 +42,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Request not found' }, { status: 404 })
     }
 
-    // Build update payload — only include fields the schema has
+    // Build update payload — only include fields that exist in the table
     const updatePayload: Record<string, unknown> = { status }
     if (quoted_price !== undefined && quoted_price !== '') {
       updatePayload.quoted_price = Number(quoted_price)
@@ -51,7 +51,7 @@ export async function PATCH(
       updatePayload.completed_at = new Date().toISOString()
     }
 
-    // Update status
+    // Update request
     const { error: updateError } = await admin
       .from('requests')
       .update(updatePayload)
@@ -79,7 +79,7 @@ export async function PATCH(
 
         await admin
           .from('retainer_accounts')
-          .update({ balance: newBalance, updated_at: new Date().toISOString() })
+          .update({ balance: newBalance })
           .eq('id', retainer.id)
 
         await admin.from('retainer_transactions').insert({

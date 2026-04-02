@@ -55,14 +55,11 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-start justify-center pt-16 sm:items-center sm:pt-0 bg-gray-50 px-4">
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary mb-4">
-            <span className="text-accent font-bold text-xl">CC</span>
-          </div>
-          <h1 className="text-2xl font-bold text-primary">Capital Consulting</h1>
+          <img src="/logo.svg" alt="Capital Consulting" className="h-10 w-auto mx-auto mb-2" />
           <p className="text-gray-500 mt-1 text-sm">Client Portal</p>
         </div>
 
