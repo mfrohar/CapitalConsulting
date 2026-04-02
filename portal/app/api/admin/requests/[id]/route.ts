@@ -28,7 +28,7 @@ export async function PATCH(
     }
 
     const body = await request.json()
-    const { status } = body
+    const { status, quoted_price } = body
     const admin = createAdminClient()
 
     // Get the request
@@ -42,10 +42,19 @@ export async function PATCH(
       return NextResponse.json({ error: 'Request not found' }, { status: 404 })
     }
 
-    // Update status
+    // Build update payload — only include fields that exist in the table
+    const updatePayload: Record<string, unknown> = { status }
+    if (quoted_price !== undefined && quoted_price !== '') {
+      updatePayload.quoted_price = Number(quoted_price)
+    }
+    if (status === 'completed' && req.status !== 'completed') {
+      updatePayload.completed_at = new Date().toISOString()
+    }
+
+    // Update request
     const { error: updateError } = await admin
       .from('requests')
-      .update({ status, updated_at: new Date().toISOString() })
+      .update(updatePayload)
       .eq('id', params.id)
 
     if (updateError) {
@@ -65,7 +74,7 @@ export async function PATCH(
 
         await admin
           .from('retainer_accounts')
-          .update({ balance: newBalance, updated_at: new Date().toISOString() })
+          .update({ balance: newBalance })
           .eq('id', retainer.id)
 
         await admin.from('retainer_transactions').insert({
