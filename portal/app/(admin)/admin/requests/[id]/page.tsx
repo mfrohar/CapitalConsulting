@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase-server'
 import { createAdminClient } from '@/lib/supabase-admin'
 import { redirect, notFound } from 'next/navigation'
 import AdminRequestActions from '@/components/AdminRequestActions'
+import AdminAdCreator from '@/components/AdminAdCreator'
 import Badge from '@/components/ui/Badge'
 
 interface PageProps {
@@ -141,6 +142,9 @@ export default async function AdminRequestDetailPage({ params }: PageProps) {
             currentStatus={request.status}
             currentQuotedPrice={request.quoted_price}
           />
+
+          {/* Ad Creative (firm_creates mode only) */}
+          <AdminAdCreator requestId={request.id} mode={request.mode} />
 
           {/* Attachments */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
