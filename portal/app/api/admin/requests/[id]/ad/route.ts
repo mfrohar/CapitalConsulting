@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase-server'
 import { createAdminClient } from '@/lib/supabase-admin'
-import { startModaJob, getModaJob, exportModaCanvas } from '@/lib/moda'
+import { startModaJob, getModaJob } from '@/lib/moda'
 
 // ── POST — Create a new ad creative (starts Moda job) ─────────────────────────
 export async function POST(
@@ -81,6 +81,28 @@ export async function POST(
   }
 }
 
+// ── DELETE — Reset / clear the ad creative record ─────────────────────────────
+export async function DELETE(
+  _request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+    const admin = createAdminClient()
+    const { data: caller } = await admin.from('clients').select('role').eq('id', user.id).single()
+    if (caller?.role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+
+    await admin.from('ad_creatives').delete().eq('request_id', params.id)
+    return NextResponse.json({ success: true })
+  } catch (err) {
+    console.error('Ad DELETE error:', err)
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
+}
+
 // ── GET — Poll ad creative + Moda job status ───────────────────────────────────
 export async function GET(
   _request: Request,
@@ -103,20 +125,19 @@ export async function GET(
 
     if (!creative) return NextResponse.json({ creative: null })
 
-    // If Moda job is still in progress, poll and update
+    // If Moda job is still generating, poll for status
     if (creative.moda_job_id && creative.moda_status === 'generating') {
       const job = await getModaJob(creative.moda_job_id)
 
       if (job.status === 'completed' && job.canvas_id) {
-        // Export image from Moda
-        const imageUrl = await exportModaCanvas(job.canvas_id)
-
+        // Mark as ready — store canvas URL so admin can open Moda, edit, and download
+        const canvasUrl = job.canvas_url ?? `https://moda.app/canvas/${job.canvas_id}`
         await admin
           .from('ad_creatives')
-          .update({ moda_status: 'ready', moda_canvas_id: job.canvas_id, image_url: imageUrl })
+          .update({ moda_status: 'ready', moda_canvas_id: job.canvas_id, image_url: canvasUrl })
           .eq('request_id', params.id)
 
-        return NextResponse.json({ creative: { ...creative, moda_status: 'ready', image_url: imageUrl } })
+        return NextResponse.json({ creative: { ...creative, moda_status: 'ready', image_url: canvasUrl } })
       }
 
       if (job.status === 'failed') {

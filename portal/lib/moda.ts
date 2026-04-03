@@ -15,8 +15,9 @@ function modaHeaders() {
 
 export interface ModaJob {
   id: string
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled'
+  status: 'pending' | 'processing' | 'running' | 'queued' | 'completed' | 'failed' | 'cancelled'
   canvas_id?: string
+  canvas_url?: string
   error?: string
 }
 
@@ -75,7 +76,11 @@ export async function startModaJob(brief: AdBrief): Promise<ModaJob> {
     throw new Error(`Moda job creation failed: ${res.status} — ${err.detail ?? 'Unknown error'}`)
   }
 
-  return res.json()
+  const data = await res.json()
+  console.log('[Moda] startModaJob response:', JSON.stringify(data))
+  // Normalize: API may return job_id instead of id
+  if (data.job_id && !data.id) data.id = data.job_id
+  return data
 }
 
 /**
@@ -91,26 +96,19 @@ export async function getModaJob(jobId: string): Promise<ModaJob> {
     throw new Error(`Moda job fetch failed: ${res.status}`)
   }
 
-  return res.json()
+  const data = await res.json()
+  console.log('[Moda] getModaJob response:', JSON.stringify(data))
+  // Normalize: API may return job_id instead of id
+  if (data.job_id && !data.id) data.id = data.job_id
+  return data
 }
 
 /**
- * Export a completed canvas as PNG. Returns a public download URL.
+ * Returns the Moda canvas view URL so admin/client can open it in a browser.
+ * Moda's REST API does not expose a direct PNG export endpoint; the canvas URL
+ * is the only reliable way to view the generated design.
  */
-export async function exportModaCanvas(canvasId: string): Promise<string> {
-  const res = await fetch(
-    `${MODA_BASE}/canvases/${canvasId}/export?format=png`,
-    {
-      headers: modaHeaders(),
-      signal: AbortSignal.timeout(30000),
-    }
-  )
-
-  if (!res.ok) {
-    throw new Error(`Moda canvas export failed: ${res.status}`)
-  }
-
-  const data = await res.json()
-  // Moda returns { url: '...' } or similar
-  return data.url ?? data.download_url ?? data.file_url
+export async function exportModaCanvas(canvasId: string, canvasUrl?: string): Promise<string> {
+  console.log('[Moda] exportModaCanvas — returning canvas URL:', canvasId)
+  return canvasUrl ?? `https://moda.app/canvas/${canvasId}`
 }

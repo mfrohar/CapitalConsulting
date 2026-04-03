@@ -125,7 +125,7 @@ export default function ClientAdApproval({ requestId, requestStatus }: Props) {
         Capital Consulting has created an ad for your approval. Please review and let us know if you'd like to proceed or request changes.
       </p>
 
-      {/* Ad preview */}
+      {/* Ad image */}
       <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
         <img src={creative.image_url} alt={creative.headline} className="w-full object-cover" />
       </div>
@@ -182,7 +182,7 @@ export default function ClientAdApproval({ requestId, requestStatus }: Props) {
       {action === 'approve' && (
         <div className="space-y-3">
           <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">
-            By approving, you confirm this ad is ready to publish. Your retainer will be charged accordingly.
+            By approving, you confirm this ad is ready to publish. Capital Consulting will proceed with the next steps.
           </div>
           <div className="flex gap-3">
             <button

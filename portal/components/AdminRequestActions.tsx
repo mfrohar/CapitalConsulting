@@ -8,6 +8,7 @@ const STATUS_OPTIONS = [
   { value: 'quoted', label: 'Quoted' },
   { value: 'in_progress', label: 'In Progress' },
   { value: 'awaiting_approval', label: 'Awaiting Approval' },
+  { value: 'approved', label: 'Approved' },
   { value: 'completed', label: 'Completed' },
   { value: 'rejected', label: 'Rejected' },
 ]

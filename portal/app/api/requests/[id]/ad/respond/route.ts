@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase-server'
 import { createAdminClient } from '@/lib/supabase-admin'
 
-const COST_PER_REQUEST = 100
-
 // POST — Client approves or rejects the ad
 export async function POST(
   request: Request,
@@ -38,29 +36,9 @@ export async function POST(
     const now = new Date().toISOString()
 
     if (action === 'approve') {
-      // Update ad + request status
+      // Mark ad as approved and move request to 'approved' — admin will manually complete
       await admin.from('ad_creatives').update({ status: 'approved', approved_at: now }).eq('request_id', params.id)
-      await admin.from('requests').update({ status: 'completed', completed_at: now }).eq('id', params.id)
-
-      // Deduct from retainer
-      const deductAmount = req.quoted_price ? Number(req.quoted_price) : COST_PER_REQUEST
-      const { data: retainer } = await admin
-        .from('retainer_accounts')
-        .select('id, balance')
-        .eq('client_id', req.client_id)
-        .single()
-
-      if (retainer) {
-        const newBalance = Math.max(0, Number(retainer.balance) - deductAmount)
-        await admin.from('retainer_accounts').update({ balance: newBalance }).eq('id', retainer.id)
-        await admin.from('retainer_transactions').insert({
-          client_id: req.client_id,
-          amount: deductAmount,
-          type: 'debit',
-          description: `Ad approved: ${req.title}`,
-          related_request_id: params.id,
-        })
-      }
+      await admin.from('requests').update({ status: 'approved' }).eq('id', params.id)
     } else {
       // Rejection — send back for revision
       await admin.from('ad_creatives').update({
