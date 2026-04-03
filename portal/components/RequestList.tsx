@@ -87,6 +87,14 @@ export default function RequestList({ requests }: RequestListProps) {
                 <Badge status={req.status} />
               </td>
               <td className="px-6 py-4 text-right space-x-3">
+                {req.status === 'awaiting_approval' && (
+                  <Link
+                    href={`/requests/${req.id}`}
+                    className="inline-flex items-center gap-1 bg-amber-500 text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-amber-600 transition"
+                  >
+                    Review Ad →
+                  </Link>
+                )}
                 {req.status === 'completed' && (
                   <Link
                     href={`/invoices/${req.id}`}
