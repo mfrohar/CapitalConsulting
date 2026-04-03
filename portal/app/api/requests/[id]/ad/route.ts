@@ -29,7 +29,7 @@ export async function GET(
       .from('ad_creatives')
       .select('id, headline, body_copy, cta, platform, image_url, status, rejection_reason, sent_at')
       .eq('request_id', params.id)
-      .eq('status', 'sent_for_approval') // Only show when published
+      .in('status', ['sent_for_approval', 'approved', 'rejected']) // Show when awaiting approval or already responded
       .single()
 
     return NextResponse.json({ creative: creative ?? null })
