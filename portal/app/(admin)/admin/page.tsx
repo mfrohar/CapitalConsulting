@@ -9,6 +9,7 @@ const STATUS_ORDER = [
   'quoted',
   'in_progress',
   'awaiting_approval',
+  'approved',
   'completed',
   'rejected',
 ]
@@ -67,6 +68,7 @@ export default async function AdminPage() {
     quoted: 'Quoted',
     in_progress: 'In Progress',
     awaiting_approval: 'Awaiting Approval',
+    approved: 'Approved',
     completed: 'Completed',
     rejected: 'Rejected',
   }
