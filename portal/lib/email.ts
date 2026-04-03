@@ -4,6 +4,16 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const ADMIN_EMAIL = 'info@capitalconsulting.ca'
 
+// Until a custom domain is verified in Resend, all outbound email must use
+// onboarding@resend.dev as `from` and can only be delivered to the account
+// owner's email (ADMIN_EMAIL). Set RESEND_FROM_DOMAIN in env once verified
+// (e.g. "portal@capitalconsulting.ca") to send to real client addresses.
+const FROM_ADDRESS = process.env.RESEND_FROM_DOMAIN
+  ? `Capital Consulting Portal <portal@${process.env.RESEND_FROM_DOMAIN}>`
+  : 'Capital Consulting Portal <onboarding@resend.dev>'
+
+const DOMAIN_VERIFIED = !!process.env.RESEND_FROM_DOMAIN
+
 interface EmailPayload {
   to: string
   subject: string
@@ -13,10 +23,13 @@ interface EmailPayload {
 }
 
 export async function sendEmail(payload: EmailPayload) {
+  // Without a verified domain, Resend only allows sending to the account owner
+  const recipient = DOMAIN_VERIFIED ? payload.to : ADMIN_EMAIL
+
   try {
     const { data, error } = await resend.emails.send({
-      from: 'Capital Consulting Portal <onboarding@resend.dev>',
-      to: payload.to,
+      from: FROM_ADDRESS,
+      to: recipient,
       subject: payload.subject,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #f9f9f9;">

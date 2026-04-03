@@ -3,7 +3,6 @@ import { createAdminClient } from '@/lib/supabase-admin'
 import { redirect, notFound } from 'next/navigation'
 import AdminRequestActions from '@/components/AdminRequestActions'
 import AdminAdCreator from '@/components/AdminAdCreator'
-import AdminDeleteRequest from '@/components/AdminDeleteRequest'
 import Badge from '@/components/ui/Badge'
 
 interface PageProps {
@@ -146,9 +145,6 @@ export default async function AdminRequestDetailPage({ params }: PageProps) {
 
           {/* Ad Creative (firm_creates mode only) */}
           <AdminAdCreator requestId={request.id} mode={request.mode} />
-
-          {/* Force Delete Request */}
-          <AdminDeleteRequest requestId={request.id} requestTitle={request.title} />
 
           {/* Attachments */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
