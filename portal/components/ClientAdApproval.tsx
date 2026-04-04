@@ -37,7 +37,8 @@ export default function ClientAdApproval({ requestId, requestStatus }: Props) {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (requestStatus !== 'awaiting_approval') {
+    // Show ad when awaiting approval or already approved/rejected
+    if (!['awaiting_approval', 'approved', 'rejected'].includes(requestStatus)) {
       setLoading(false)
       return
     }
@@ -74,7 +75,8 @@ export default function ClientAdApproval({ requestId, requestStatus }: Props) {
     }
   }
 
-  if (loading || requestStatus !== 'awaiting_approval') return null
+  if (loading) return null
+  if (!['awaiting_approval', 'approved', 'rejected'].includes(requestStatus)) return null
   if (!creative) return null
 
   if (done) {
@@ -111,14 +113,25 @@ export default function ClientAdApproval({ requestId, requestStatus }: Props) {
     )
   }
 
+  const isApproved = creative?.status === 'approved'
+
   return (
-    <div className="bg-white rounded-xl border border-amber-200 p-6 space-y-6">
+    <div className={`bg-white rounded-xl border p-6 space-y-6 ${isApproved ? 'border-green-200' : 'border-amber-200'}`}>
       <div className="flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-        <h2 className="text-base font-semibold text-gray-800">Your Ad is Ready for Review</h2>
-        <span className="ml-auto text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-          Action Required
-        </span>
+        {isApproved ? (
+          <>
+            <div className="w-2 h-2 rounded-full bg-green-500" />
+            <h2 className="text-base font-semibold text-gray-800">Your Approved Ad</h2>
+          </>
+        ) : (
+          <>
+            <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <h2 className="text-base font-semibold text-gray-800">Your Ad is Ready for Review</h2>
+            <span className="ml-auto text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+              Action Required
+            </span>
+          </>
+        )}
       </div>
 
       <p className="text-sm text-gray-500">
@@ -154,8 +167,8 @@ export default function ClientAdApproval({ requestId, requestStatus }: Props) {
         )}
       </div>
 
-      {/* Response buttons */}
-      {!action && (
+      {/* Response buttons (hide if already approved) */}
+      {!action && !isApproved && (
         <div className="flex gap-3">
           <button
             onClick={() => setAction('approve')}
@@ -178,8 +191,18 @@ export default function ClientAdApproval({ requestId, requestStatus }: Props) {
         </div>
       )}
 
+      {/* Approved confirmation message */}
+      {isApproved && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-sm text-green-700 flex items-center gap-2">
+          <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          You approved this ad. Capital Consulting will proceed with the next steps.
+        </div>
+      )}
+
       {/* Confirm approve */}
-      {action === 'approve' && (
+      {action === 'approve' && !isApproved && (
         <div className="space-y-3">
           <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm text-green-700">
             By approving, you confirm this ad is ready to publish. Capital Consulting will proceed with the next steps.
