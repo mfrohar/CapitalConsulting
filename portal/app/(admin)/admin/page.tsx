@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase-admin'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Badge from '@/components/ui/Badge'
+import AdminQueueActions from '@/components/AdminQueueActions'
 
 const STATUS_ORDER = [
   'pending',
@@ -146,12 +147,7 @@ export default async function AdminPage() {
                         <Badge status={req.status} />
                       </td>
                       <td className="px-6 py-4">
-                        <Link
-                          href={`/admin/requests/${req.id}`}
-                          className="text-primary font-medium hover:underline text-sm"
-                        >
-                          View
-                        </Link>
+                        <AdminQueueActions requestId={req.id} requestTitle={req.title} />
                       </td>
                     </tr>
                   )

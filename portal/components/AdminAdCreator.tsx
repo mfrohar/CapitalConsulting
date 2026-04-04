@@ -49,7 +49,7 @@ export default function AdminAdCreator({ requestId, mode }: Props) {
   const [audience, setAudience] = useState('')
 
   const fetchCreative = useCallback(async () => {
-    const res = await fetch(`/api/admin/requests/${requestId}/ad`)
+    const res = await fetch(`/api/admin/requests/${requestId}/ad`, { cache: 'no-store' })
     const data = await res.json()
     if (data.creative) {
       setCreative(data.creative)
